@@ -1,0 +1,205 @@
+:where(
+    .yass,
+    .yass *,
+    .yass__panel,
+    .yass__panel *
+) {
+    box-sizing: border-box;
+}
+
+:where(.yass) {
+    display: inline-flex;
+    max-width: 100%;
+    color: var(--yass-color, CanvasText);
+    vertical-align: baseline;
+}
+
+:where(.yass[hidden]) {
+    display: none !important;
+}
+
+:where(.yass__native) {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+:where(.yass__trigger) {
+    display: inline-flex;
+    align-items: baseline;
+    min-width: 0;
+    max-width: 100%;
+    padding: 0 0.08em 0.08em;
+    color: inherit;
+    font: inherit;
+    line-height: inherit;
+    text-align: start;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px dotted currentColor;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+:where(.yass__trigger:hover) {
+    color: var(--yass-accent, Highlight);
+}
+
+:where(.yass__trigger:focus-visible) {
+    color: var(--yass-color, CanvasText);
+    outline: 2px solid var(--yass-accent, Highlight);
+    outline-offset: 3px;
+}
+
+:where(.yass__trigger:disabled) {
+    color: var(--yass-muted-color, GrayText);
+    border-bottom-color: transparent;
+    cursor: default;
+}
+
+:where(.yass__value) {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+:where(.yass__panel) {
+    position: fixed;
+    z-index: 1000;
+    display: grid;
+    gap: 0.5rem;
+    padding: 0.55rem;
+    overflow: hidden;
+    color: var(--yass-color, CanvasText);
+    color-scheme: light dark;
+    font: inherit;
+    background: var(--yass-background, Canvas);
+    border: 1px solid var(--yass-border-color, GrayText);
+    border-radius: var(--yass-radius, 0.5rem);
+    box-shadow: var(--yass-shadow, 0 0.8rem 2rem rgb(0 0 0 / 18%));
+}
+
+:where(.yass__panel[hidden]) {
+    display: none !important;
+}
+
+:where(.yass__search) {
+    width: 100%;
+    min-height: 2.6rem;
+    padding: 0.45rem 0.65rem;
+    color: var(--yass-color, CanvasText);
+    font: inherit;
+    background: var(--yass-background, Canvas);
+    border: 1px solid var(--yass-border-color, GrayText);
+    border-radius: var(--yass-radius, 0.5rem);
+}
+
+:where(.yass__search::placeholder) {
+    color: var(--yass-muted-color, GrayText);
+    opacity: 1;
+}
+
+:where(.yass__search:focus) {
+    border-color: var(--yass-accent, Highlight);
+    outline: 2px solid var(--yass-accent, Highlight);
+    outline-offset: 1px;
+}
+
+:where(.yass__list) {
+    min-height: 2.3rem;
+    max-height: 20rem;
+    margin: 0;
+    padding: 0.2rem 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    color: var(--yass-color, CanvasText);
+    background: var(--yass-background, Canvas);
+    border: 1px solid var(--yass-border-color, GrayText);
+    border-radius: var(--yass-radius, 0.5rem);
+}
+
+:where(.yass__option, .yass__group) {
+    min-width: 0;
+    padding: 0.42rem 0.65rem;
+    padding-inline-start: calc(0.65rem + var(--yass-depth, 0) * 1rem);
+    overflow-wrap: anywhere;
+}
+
+:where(.yass__option) {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    cursor: pointer;
+}
+
+:where(.yass__option.is-selected) {
+    font-weight: 650;
+}
+
+:where(.yass__option.is-active) {
+    color: var(--yass-accent-color, HighlightText);
+    background: var(--yass-accent, Highlight);
+}
+
+:where(.yass__group) {
+    color: var(--yass-muted-color, GrayText);
+    font-weight: 650;
+}
+
+:where(.yass__separator) {
+    height: 1px;
+    margin: 0.35rem 0.65rem;
+    background: var(--yass-border-color, GrayText);
+    opacity: 0.6;
+}
+
+:where(.yass__icon) {
+    flex: 0 0 auto;
+}
+
+:where(.yass__option mark, .yass__group mark) {
+    padding: 0;
+    color: MarkText;
+    background: Mark;
+}
+
+:where(.yass__option.is-active mark) {
+    color: inherit;
+    font-weight: 700;
+    background: transparent;
+    text-decoration: underline;
+}
+
+:where(.yass__empty) {
+    padding: 0.75rem;
+    color: var(--yass-muted-color, GrayText);
+}
+
+:where(.yass__status) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (forced-colors: active) {
+    :where(.yass__option.is-active) {
+        outline: 1px solid HighlightText;
+        outline-offset: -1px;
+    }
+}

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Yass 0.1.0 demo</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --page: #f7f3eb;
+            --card: #fffdf8;
+            --ink: #28221c;
+            --muted: #786e64;
+            --line: #cfc4b8;
+            --yass-color: var(--ink);
+            --yass-muted-color: var(--muted);
+            --yass-background: var(--card);
+            --yass-border-color: #9c8d7f;
+            --yass-accent: #c4511b;
+            --yass-accent-color: #fff;
+            --yass-radius: 0.45rem;
+            --yass-shadow: 0 1rem 2.8rem rgb(51 38 27 / 20%);
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+            --page: #100e0c;
+            --card: #211d19;
+            --ink: #f8eee4;
+            --muted: #c7b8aa;
+            --line: #51483f;
+            --yass-border-color: #817366;
+            --yass-accent: #f0a066;
+            --yass-accent-color: #24140a;
+            --yass-shadow: 0 1rem 3rem rgb(0 0 0 / 55%);
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--page);
+            font: 17px/1.55 system-ui, sans-serif;
+        }
+        main { width: min(50rem, calc(100% - 2rem)); margin: 4rem auto; }
+        header { display: flex; align-items: start; justify-content: space-between; gap: 2rem; }
+        h1 { margin: 0; font-size: clamp(2.2rem, 8vw, 4.8rem); line-height: 0.95; letter-spacing: -0.06em; }
+        .lede { max-width: 36rem; margin: 1.4rem 0 2.4rem; color: var(--muted); font-size: 1.1rem; }
+        .theme {
+            padding: 0.45rem 0.7rem;
+            color: inherit;
+            font: inherit;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 2rem;
+            cursor: pointer;
+        }
+        .card {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+            gap: 2rem;
+            padding: clamp(1.25rem, 5vw, 2.5rem);
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 1rem;
+        }
+        label { display: block; margin-bottom: 0.55rem; color: var(--muted); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+        select, button { font: inherit; }
+        .hint { margin-top: 2rem; color: var(--muted); }
+        code { color: var(--ink); }
+        output { display: block; min-height: 1.5rem; margin-top: 1.5rem; color: var(--muted); }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <h1>Yass</h1>
+        <button class="theme" id="theme" type="button">Dark</button>
+    </header>
+    <p class="lede"><strong>Yet Another Searchable Select.</strong> Dependency-free progressive enhancement for native selects. Click a dotted value or reach it with Tab, then type. Try <code>цшту</code> to find “Wine bank”.</p>
+
+    <form class="card" id="demo-form">
+        <div>
+            <label for="account">Account</label>
+            <select id="account" name="account" data-yass>
+                <option value="cash">Cash</option>
+                <optgroup label="Everyday">
+                    <option value="main">Main account</option>
+                    <option value="wine">Wine bank</option>
+                    <option value="travel">Travel card</option>
+                </optgroup>
+                <optgroup label="People">
+                    <option value="sandra">Сандра</option>
+                    <option value="mia">Миа</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div>
+            <label for="category">Category</label>
+            <select id="category" name="category" data-yass>
+                <option value="">— no value —</option>
+                <option value="expenses" disabled>Expenses</option>
+                <option value="food">&nbsp;&nbsp;&nbsp;&nbsp;Food</option>
+                <option value="wine-category">&nbsp;&nbsp;&nbsp;&nbsp;Wine</option>
+                <option value="transport">&nbsp;&nbsp;&nbsp;&nbsp;Transport</option>
+                <option value="income" disabled>Income</option>
+                <option value="salary">&nbsp;&nbsp;&nbsp;&nbsp;Salary</option>
+            </select>
+        </div>
+    </form>
+
+    <p class="hint">The values above are still ordinary <code>&lt;select&gt;</code> elements and submit through native forms.</p>
+    <output id="events" aria-live="polite"></output>
+</main>
+
+<script src="../dist/yass.js"></script>
+<script>
+    const root = document.documentElement;
+    const themeButton = document.getElementById('theme');
+    themeButton.addEventListener('click', () => {
+        const dark = root.dataset.theme !== 'dark';
+        root.dataset.theme = dark ? 'dark' : 'light';
+        themeButton.textContent = dark ? 'Light' : 'Dark';
+    });
+
+    document.getElementById('demo-form').addEventListener('change', (event) => {
+        document.getElementById('events').textContent = `${event.target.name}: ${event.target.value}`;
+    });
+</script>
+</body>
+</html>

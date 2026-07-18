@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm test
+      - run: node tools/verify-release.mjs "$RELEASE_TAG"
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+      - run: git diff --exit-code -- dist
+      - name: Pack the verified release
+        id: pack
+        run: |
+          npm pack --json > pack.json
+          package_file=$(node -e "const result = require('./pack.json')[0]; process.stdout.write(result.filename)")
+          package_integrity=$(node -e "const result = require('./pack.json')[0]; process.stdout.write(result.integrity)")
+          echo "file=$package_file" >> "$GITHUB_OUTPUT"
+          echo "integrity=$package_integrity" >> "$GITHUB_OUTPUT"
+      - name: Publish to npm when absent
+        run: |
+          package_version=$(node -p "require('./package.json').version")
+          package_name=$(node -p "require('./package.json').name")
+          published_integrity=$(npm view "$package_name@$package_version" dist.integrity 2>/dev/null || true)
+          if [ -n "$published_integrity" ]; then
+            if [ "$published_integrity" != "${{ steps.pack.outputs.integrity }}" ]; then
+              echo "npm already contains different bytes for $package_name@$package_version" >&2
+              exit 1
+            fi
+            echo "The identical package version already exists on npm."
+          else
+            npm publish "${{ steps.pack.outputs.file }}"
+          fi
+      - name: Create checksums
+        run: shasum -a 256 dist/yass.js dist/yass.min.js dist/yass.mjs dist/yass.css dist/yass.d.ts dist/style.d.ts "${{ steps.pack.outputs.file }}" > SHA256SUMS
+      - name: Attach build-free files
+        run: gh release upload "$RELEASE_TAG" dist/yass.js dist/yass.min.js dist/yass.mjs dist/yass.css dist/yass.d.ts dist/style.d.ts "${{ steps.pack.outputs.file }}" SHA256SUMS --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}

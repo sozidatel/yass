@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Yass browser fixture</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            --page-background: #fffaf3;
+            --page-color: #211b16;
+            --yass-color: #211b16;
+            --yass-muted-color: #685e55;
+            --yass-background: #fff;
+            --yass-border-color: #82766d;
+            --yass-accent: #a94412;
+            --yass-accent-color: #fff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --page-background: #0d0b09;
+                --page-color: #f8eee3;
+                --yass-color: #f8eee3;
+                --yass-muted-color: #c9b9a8;
+                --yass-background: #211b17;
+                --yass-border-color: #8f8174;
+                --yass-accent: #f0a66e;
+                --yass-accent-color: #1d120b;
+            }
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            max-width: 46rem;
+            margin: 0 auto;
+            padding: 1.25rem;
+            color: var(--page-color);
+            background: var(--page-background);
+            font: 18px/1.45 system-ui, sans-serif;
+        }
+        form { display: grid; gap: 1.25rem; }
+        label { display: block; margin-bottom: 0.3rem; font-weight: 650; }
+        button, input, select { font: inherit; }
+        output { min-height: 1.5em; overflow-wrap: anywhere; }
+    </style>
+</head>
+<body>
+<button id="before" type="button">Before</button>
+
+<form id="fixture-form">
+    <div>
+        <label for="account">Account</label>
+        <select id="account" name="account" data-yass>
+            <option value="cash">Cash</option>
+            <option value="" disabled>Accounts</option>
+            <option value="wine">&nbsp;&nbsp;&nbsp;&nbsp;Wine bank</option>
+            <option value="" disabled>──────────</option>
+            <option value="" disabled>Debts</option>
+            <option value="sandra">&nbsp;&nbsp;&nbsp;&nbsp;Сандра</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="warehouse">Warehouse</label>
+        <select id="warehouse" name="warehouse" data-yass>
+            <option value="">— no value —</option>
+            <option value="main">Main</option>
+            <option value="bar">Bar</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="temporarily-disabled">Temporarily disabled</label>
+        <select id="temporarily-disabled" data-yass disabled>
+            <option>Unavailable</option>
+        </select>
+    </div>
+
+    <div>
+        <button id="submit" type="submit">Submit</button>
+        <button id="reset" type="reset">Reset</button>
+    </div>
+    <output id="result"></output>
+</form>
+
+<script>
+    const fixtureParameters = new URLSearchParams(location.search);
+    if (fixtureParameters.has('no-styles')) {
+        window.YassConfig = { injectStyles: false };
+    } else if (fixtureParameters.has('nonce')) {
+        window.YassConfig = { nonce: 'fixture-nonce' };
+    }
+</script>
+<script src="/dist/yass.js"></script>
+<script>
+    window.fixtureEvents = { input: 0, change: 0 };
+    const account = document.getElementById('account');
+    account.addEventListener('input', () => { window.fixtureEvents.input += 1; });
+    account.addEventListener('change', () => { window.fixtureEvents.change += 1; });
+    document.getElementById('fixture-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        document.getElementById('result').textContent = JSON.stringify({
+            account: data.get('account'),
+            warehouse: data.get('warehouse'),
+            events: window.fixtureEvents,
+        });
+    });
+</script>
+</body>
+</html>

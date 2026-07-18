@@ -1,0 +1,70 @@
+{
+  "name": "@sozidatel/yass",
+  "version": "0.1.0",
+  "description": "A small, dependency-free searchable enhancement for native select elements.",
+  "keywords": [
+    "select",
+    "search",
+    "searchable-select",
+    "combobox",
+    "dropdown",
+    "progressive-enhancement",
+    "vanilla-js",
+    "accessibility"
+  ],
+  "homepage": "https://sozidatel.github.io/yass-select/",
+  "bugs": {
+    "url": "https://github.com/sozidatel/yass-select/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sozidatel/yass-select.git"
+  },
+  "author": "Soz Nov",
+  "license": "MIT",
+  "sideEffects": true,
+  "type": "module",
+  "types": "./dist/yass.d.ts",
+  "main": "./dist/yass.mjs",
+  "module": "./dist/yass.mjs",
+  "style": "./dist/yass.css",
+  "unpkg": "./dist/yass.min.js",
+  "jsdelivr": "./dist/yass.min.js",
+  "exports": {
+    ".": {
+      "types": "./dist/yass.d.ts",
+      "import": "./dist/yass.mjs"
+    },
+    "./style.css": {
+      "types": "./dist/style.d.ts",
+      "default": "./dist/yass.css"
+    }
+  },
+  "files": [
+    "dist",
+    "docs",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "demo": "node tools/serve.mjs",
+    "prepack": "npm run build",
+    "test": "npm run build && npm run test:unit && npm run test:types && npm run test:browser",
+    "test:unit": "node --test tests/unit/*.test.mjs",
+    "test:types": "tsc --noEmit --strict --module NodeNext --moduleResolution NodeNext --lib DOM,ES2020 tests/types/usage.ts",
+    "test:browser": "playwright test",
+    "verify:release": "node tools/verify-release.mjs",
+    "check": "npm test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "esbuild": "^0.28.1",
+    "typescript": "^7.0.2"
+  }
+}
