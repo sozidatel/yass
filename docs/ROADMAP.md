@@ -25,7 +25,7 @@ These checks validate the original behavior, not `1.0` API stability or assistiv
 ### Code boundary
 
 - [x] Remove `Horoso` names, Bootstrap-specific behavior, and application color variables from the reusable source.
-- [x] Use Yass as the project/global name, `@sozidatel/yass` as the npm package, and `yass-select` as the repository name.
+- [x] Use Yass as the project/global name, `@sozidatel/yass` as the npm package, and `yass` as the repository name.
 - [x] Prefix the documented `0.1.0` data-attribute contract with `data-yass-*`.
 - [x] Keep the native select as the sole form-state source.
 - [x] Define the minimal lifecycle API: global enhancement/configuration/style helpers and instance open/close/refresh/sync/destroy.

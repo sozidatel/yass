@@ -1,7 +1,7 @@
-/*! Yass v0.1.0 */
+/*! Yass v0.1.1 */
 
 // src/yass.js
-var VERSION = "0.1.0";
+var VERSION = "0.1.1";
 var SELECTOR = "select[data-yass]";
 var STYLE_SELECTOR = "style[data-yass-styles]";
 var ENGLISH_KEYS = "`qwertyuiop[]asdfghjkl;'zxcvbnm,./";

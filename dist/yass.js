@@ -1,4 +1,4 @@
-/*! Yass v0.1.0 */
+/*! Yass v0.1.1 */
 var Yass = (() => {
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -30,7 +30,7 @@ var Yass = (() => {
     injectStyles: () => publicInjectStyles,
     version: () => VERSION
   });
-  var VERSION = "0.1.0";
+  var VERSION = "0.1.1";
   var SELECTOR = "select[data-yass]";
   var STYLE_SELECTOR = "style[data-yass-styles]";
   var ENGLISH_KEYS = "`qwertyuiop[]asdfghjkl;'zxcvbnm,./";

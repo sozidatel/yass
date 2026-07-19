@@ -8,6 +8,19 @@ The format is based on Keep a Changelog, and versions follow Semantic Versioning
 
 No changes yet.
 
+## [0.1.1] - 2026-07-19
+
+### Changed
+
+- Renamed the GitHub repository from `yass-select` to `yass` for consistency with the project and npm package.
+- Updated source, issue, and GitHub Pages metadata to the canonical `sozidatel/yass` locations.
+- Hardened the release workflow to pin npm, verify the post-pack build, fail closed on registry errors, and publish scoped packages explicitly as public.
+
+### Release status
+
+- This metadata-only patch keeps the public API and behavior of `0.1.0` unchanged.
+- The release is published through npm Trusted Publishing so the GitHub Actions identity and provenance are exercised on a real version.
+
 ## [0.1.0] - 2026-07-19
 
 ### Added

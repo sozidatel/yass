@@ -10,7 +10,7 @@ const expectedTag = `v${metadata.version}`;
 
 assert.equal(metadata.name, '@sozidatel/yass');
 assert.equal(metadata.private, undefined);
-assert.equal(metadata.repository?.url, 'git+https://github.com/sozidatel/yass-select.git');
+assert.equal(metadata.repository?.url, 'git+https://github.com/sozidatel/yass.git');
 assert.equal(metadata.publishConfig?.access, 'public');
 assert.equal(metadata.publishConfig?.registry, 'https://registry.npmjs.org/');
 if (releaseTag) {

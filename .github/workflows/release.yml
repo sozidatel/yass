@@ -22,6 +22,8 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
+      - name: Use the release npm version
+        run: npm install --global npm@11.13.0
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm test
@@ -37,19 +39,33 @@ jobs:
           package_integrity=$(node -e "const result = require('./pack.json')[0]; process.stdout.write(result.integrity)")
           echo "file=$package_file" >> "$GITHUB_OUTPUT"
           echo "integrity=$package_integrity" >> "$GITHUB_OUTPUT"
+      - name: Verify packing did not change the build
+        run: git diff --exit-code -- dist
       - name: Publish to npm when absent
         run: |
           package_version=$(node -p "require('./package.json').version")
           package_name=$(node -p "require('./package.json').name")
-          published_integrity=$(npm view "$package_name@$package_version" dist.integrity 2>/dev/null || true)
-          if [ -n "$published_integrity" ]; then
+
+          set +e
+          published_integrity=$(npm view "$package_name@$package_version" dist.integrity 2>npm-view.err)
+          view_status=$?
+          set -e
+
+          if [ "$view_status" -eq 0 ]; then
+            if [ -z "$published_integrity" ]; then
+              echo "npm returned no integrity for $package_name@$package_version" >&2
+              exit 1
+            fi
             if [ "$published_integrity" != "${{ steps.pack.outputs.integrity }}" ]; then
               echo "npm already contains different bytes for $package_name@$package_version" >&2
               exit 1
             fi
             echo "The identical package version already exists on npm."
+          elif grep -q 'E404' npm-view.err; then
+            npm publish "${{ steps.pack.outputs.file }}" --access public
           else
-            npm publish "${{ steps.pack.outputs.file }}"
+            cat npm-view.err >&2
+            exit "$view_status"
           fi
       - name: Create checksums
         run: shasum -a 256 dist/yass.js dist/yass.min.js dist/yass.mjs dist/yass.css dist/yass.d.ts dist/style.d.ts "${{ steps.pack.outputs.file }}" > SHA256SUMS

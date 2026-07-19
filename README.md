@@ -7,7 +7,7 @@ It is intended for long account, category, product, contact, warehouse, and simi
 
 The control is collapsed as a compact pseudo-link. When opened, it focuses a search field and lets the user filter and choose with either the keyboard or pointer. The native `<select>` remains the source of truth for form submission and application events.
 
-> **Release:** `0.1.0`, dated 2026-07-19 and tagged `v0.1.0`. The source, browser and ESM distributions, type declarations, [live demo](https://sozidatel.github.io/yass-select/), documentation, and automated tests are versioned together.
+> **Release:** `0.1.1`, dated 2026-07-19 and tagged `v0.1.1`. The source, browser and ESM distributions, type declarations, [live demo](https://sozidatel.github.io/yass/), documentation, and automated tests are versioned together.
 
 ## Why it exists
 
@@ -82,10 +82,10 @@ Form reset also works for a select associated through `form="…"` outside the f
 
 ## Public API
 
-The `0.1.0` contract is intentionally small:
+The `0.1.x` contract is intentionally small:
 
 ```js
-Yass.version; // "0.1.0"
+Yass.version; // "0.1.1"
 Yass.enhance(select, options);
 Yass.enhanceAll(scope, options);
 Yass.get(select);

@@ -1,6 +1,6 @@
 {
   "name": "@sozidatel/yass",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A small, dependency-free searchable enhancement for native select elements.",
   "keywords": [
     "select",
@@ -12,13 +12,13 @@
     "vanilla-js",
     "accessibility"
   ],
-  "homepage": "https://sozidatel.github.io/yass-select/",
+  "homepage": "https://sozidatel.github.io/yass/",
   "bugs": {
-    "url": "https://github.com/sozidatel/yass-select/issues"
+    "url": "https://github.com/sozidatel/yass/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sozidatel/yass-select.git"
+    "url": "git+https://github.com/sozidatel/yass.git"
   },
   "author": "Soz Nov",
   "license": "MIT",

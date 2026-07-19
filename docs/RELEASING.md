@@ -30,32 +30,36 @@ Before tagging, also verify:
 Create the release commit first, then an annotated tag:
 
 ```sh
-git tag -a v0.1.0 -m "Yass 0.1.0"
+git tag -a v0.1.1 -m "Yass 0.1.1"
 ```
 
 Push the release commit and tag only after the checks pass. Publish a GitHub Release from the tag; `.github/workflows/release.yml` repeats the full suite, attaches build-free artifacts and `SHA256SUMS`, and publishes the matching package version to npm when it is not already present.
 
 ## npm ownership and trusted publishing
 
-The first npm publication establishes ownership of `@sozidatel/yass` and therefore requires an authenticated npm account:
+The initial `0.1.0` npm publication established ownership of `@sozidatel/yass` and therefore required an authenticated npm account:
 
 ```sh
 npm adduser
 npm test
-npm pack --dry-run
-npm publish
+npm pack --json
+npm publish ./sozidatel-yass-0.1.0.tgz --access public
 ```
+
+Always publish the exact tarball reported by `npm pack --json`, then compare its `integrity` value with `npm view @sozidatel/yass@0.1.0 dist.integrity`. The release workflow pins npm 11.13.0 so local and hosted packing use the same archive implementation.
 
 After the package exists, configure its npm trusted publisher with these exact values:
 
 - provider: GitHub Actions;
 - owner: `sozidatel`;
-- repository: `yass-select`;
+- repository: `yass`;
 - workflow: `release.yml`;
 - allowed action: `npm publish`;
 - environment: none.
 
-The release workflow uses GitHub OIDC on a hosted Node 24 runner, so it needs no long-lived npm token. npm generates provenance automatically for the public package and repository. Once a trusted publication succeeds, disable token-based package publishing in npm settings.
+The release workflow uses GitHub OIDC on a hosted Node 24 runner, so it needs no long-lived npm token. npm generates provenance automatically when the workflow actually publishes a new version. The manually bootstrapped `0.1.0` package therefore has no OIDC provenance; `0.1.1` is the first real trusted-publisher exercise. Once that succeeds, disable token-based package publishing in npm settings.
+
+Keep GitHub immutable releases disabled with the current workflow: it attaches verified artifacts after the release is published. Enabling immutable releases requires changing the workflow to upload every asset while the release is still a draft.
 
 ## Consuming without a build
 

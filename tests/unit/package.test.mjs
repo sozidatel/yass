@@ -7,14 +7,14 @@ import { fileURLToPath } from 'node:url';
 const projectDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const metadata = JSON.parse(await readFile(path.join(projectDirectory, 'package.json'), 'utf8'));
 
-test('package is a public, dependency-free Yass 0.1.0 release', () => {
+test('package is a public, dependency-free Yass 0.1.1 release', () => {
     assert.equal(metadata.name, '@sozidatel/yass');
-    assert.equal(metadata.version, '0.1.0');
+    assert.equal(metadata.version, '0.1.1');
     assert.equal(metadata.private, undefined);
     assert.equal(metadata.license, 'MIT');
-    assert.equal(metadata.repository.url, 'git+https://github.com/sozidatel/yass-select.git');
-    assert.equal(metadata.homepage, 'https://sozidatel.github.io/yass-select/');
-    assert.equal(metadata.bugs.url, 'https://github.com/sozidatel/yass-select/issues');
+    assert.equal(metadata.repository.url, 'git+https://github.com/sozidatel/yass.git');
+    assert.equal(metadata.homepage, 'https://sozidatel.github.io/yass/');
+    assert.equal(metadata.bugs.url, 'https://github.com/sozidatel/yass/issues');
     assert.equal(metadata.publishConfig.access, 'public');
     assert.equal(metadata.publishConfig.registry, 'https://registry.npmjs.org/');
     assert.equal(metadata.engines, undefined);
