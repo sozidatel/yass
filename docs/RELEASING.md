@@ -30,7 +30,7 @@ Before tagging, also verify:
 Create the release commit first, then an annotated tag:
 
 ```sh
-git tag -a v0.1.1 -m "Yass 0.1.1"
+git tag -a v0.1.2 -m "Yass 0.1.2"
 ```
 
 Push the release commit and tag only after the checks pass. Publish a GitHub Release from the tag; `.github/workflows/release.yml` repeats the full suite, attaches build-free artifacts and `SHA256SUMS`, and publishes the matching package version to npm when it is not already present.

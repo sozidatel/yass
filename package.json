@@ -1,6 +1,6 @@
 {
   "name": "@sozidatel/yass",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A small, dependency-free searchable enhancement for native select elements.",
   "keywords": [
     "select",

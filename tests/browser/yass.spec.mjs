@@ -20,6 +20,24 @@ test('auto-initializes marked native selects and injects baseline CSS once', asy
     await expect(page.locator('#account').locator('xpath=following-sibling::*[contains(@class, "yass__trigger")]')).toHaveAttribute('aria-label', 'Account: Cash');
 });
 
+test('keeps match highlighting flush when a framework styles mark elements', async ({ page }) => {
+    await page.locator('head').evaluate((head) => {
+        const style = document.createElement('style');
+        style.textContent = 'mark { padding: 0.1875em; }';
+        head.append(style);
+    });
+
+    const search = await openAccount(page);
+    await search.fill('wine');
+
+    const mark = page.locator('.yass__option mark');
+    await expect(mark).toHaveText('Wine');
+    await expect(mark).toHaveCSS('padding-left', '0px');
+    await expect(mark).toHaveCSS('padding-right', '0px');
+    await expect(mark).toHaveCSS('padding-top', '0px');
+    await expect(mark).toHaveCSS('padding-bottom', '0px');
+});
+
 test('opens when keyboard focus reaches the trigger', async ({ page, browserName }) => {
     await page.locator('#before').focus();
     await expect(page.locator('#before')).toBeFocused();

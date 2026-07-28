@@ -8,6 +8,12 @@ The format is based on Keep a Changelog, and versions follow Semantic Versioning
 
 No changes yet.
 
+## [0.1.2] - 2026-07-28
+
+### Fixed
+
+- Prevented framework-level `mark` padding, including Bootstrap's default, from adding gaps around highlighted search matches.
+
 ## [0.1.1] - 2026-07-19
 
 ### Changed

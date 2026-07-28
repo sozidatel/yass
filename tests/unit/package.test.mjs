@@ -7,9 +7,9 @@ import { fileURLToPath } from 'node:url';
 const projectDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const metadata = JSON.parse(await readFile(path.join(projectDirectory, 'package.json'), 'utf8'));
 
-test('package is a public, dependency-free Yass 0.1.1 release', () => {
+test('package is a public, dependency-free Yass 0.1.2 release', () => {
     assert.equal(metadata.name, '@sozidatel/yass');
-    assert.equal(metadata.version, '0.1.1');
+    assert.equal(metadata.version, '0.1.2');
     assert.equal(metadata.private, undefined);
     assert.equal(metadata.license, 'MIT');
     assert.equal(metadata.repository.url, 'git+https://github.com/sozidatel/yass.git');

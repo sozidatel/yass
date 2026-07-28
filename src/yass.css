@@ -166,13 +166,14 @@
     flex: 0 0 auto;
 }
 
-:where(.yass__option mark, .yass__group mark) {
+.yass__option :where(mark),
+.yass__group :where(mark) {
     padding: 0;
     color: MarkText;
     background: Mark;
 }
 
-:where(.yass__option.is-active mark) {
+.yass__option.is-active :where(mark) {
     color: inherit;
     font-weight: 700;
     background: transparent;
